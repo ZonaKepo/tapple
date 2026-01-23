@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Tapple Tema Acak</title>
     <style>
         body {
@@ -19,34 +19,35 @@
         }
         #container {
             text-align: center;
-            width: 80%;
+            width: 90%;
             max-width: 400px;
         }
         #tema {
-            font-size: 24px;
+            font-size: 36px;
+            font-weight: bold;
             margin: 20px 0;
         }
         button {
-            padding: 10px 20px;
-            font-size: 18px;
+            padding: 15px 30px;
+            font-size: 24px;
             cursor: pointer;
             background-color: #add8e6;
             color: #000;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
         }
         #counter {
-            font-size: 12px;
+            font-size: 18px;
             color: #ccc;
-            margin-left: 10px;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
     <div id="container">
-        <div id="tema">Klik tombol di bawah untuk mendapatkan tema!</div>
+        <div id="tema"></div>
         <button id="acakTema">Acak Tema</button>
-        <span id="counter">0/5</span>
+        <div id="counter">1/10</div>
     </div>
 
     <script>
@@ -55,7 +56,12 @@
             "Buah berwarna merah",
             "Makanan yang rasanya manis",
             "Benda yang ada di pasar",
-            "Hewan yang bisa terbang"
+            "Hewan yang bisa terbang",
+            "Bunga yang indah",
+            "Warna favorit",
+            "Negara di Asia",
+            "Olahraga populer",
+            "Alat musik"
         ];
 
         const temaElement = document.getElementById('tema');
@@ -64,11 +70,16 @@
 
         let currentTemaIndex = 0;
 
-        acakTemaButton.addEventListener('click', () => {
-            currentTemaIndex = (currentTemaIndex + 1) % temaList.length;
+        const randomTema = () => {
+            currentTemaIndex = Math.floor(Math.random() * temaList.length);
             temaElement.textContent = temaList[currentTemaIndex];
             counterElement.textContent = `${currentTemaIndex + 1}/${temaList.length}`;
-        });
+        };
+
+        acakTemaButton.addEventListener('click', randomTema);
+
+        // Tampilkan tema pertama saat load
+        randomTema();
     </script>
 </body>
 </html>
