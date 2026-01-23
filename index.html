@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tapple Tema Acak</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+        #tema {
+            font-size: 24px;
+            margin: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tapple Tema Acak</h1>
+    <div id="tema">Klik tombol di bawah untuk mendapatkan tema!</div>
+    <button id="acakTema">Acak Tema</button>
+
+    <script>
+        const temaList = [
+            "Nama binatang yang hidup di darat",
+            "Buah berwarna merah",
+            "Makanan yang rasanya manis",
+            "Benda yang ada di pasar",
+            "Hewan yang bisa terbang"
+        ];
+
+        const temaElement = document.getElementById('tema');
+        const acakTemaButton = document.getElementById('acakTema');
+
+        acakTemaButton.addEventListener('click', () => {
+            const randomIndex = Math.floor(Math.random() * temaList.length);
+            temaElement.textContent = temaList[randomIndex];
+        });
+    </script>
+</body>
+</html>
