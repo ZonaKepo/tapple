@@ -6,8 +6,7 @@
     <title>Tapple Tema Acak</title>
     <style>
         body {
-            /* Menggunakan font kurus (condensed) */
-            font-family: 'Arial Narrow', sans-serif-condensed, 'Roboto Condensed', sans-serif;
+            font-family: 'Arial Narrow', sans-serif-condensed, sans-serif;
             background-color: #1a1a1a;
             color: #fff;
             margin: 0;
@@ -19,54 +18,60 @@
         }
 
         #container {
-            /* Rotasi 90 derajat */
             transform: rotate(90deg);
-            /* Karena diputar, lebar kontainer menggunakan tinggi layar (vh) */
-            /* Kita kasih 95vh supaya benar-benar lebar ke samping */
-            width: 95vh; 
+            /* Memaksimalkan lebar hingga hampir menyentuh pinggir layar HP (atas-bawah visual) */
+            width: 98vh; 
             height: 90vw;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
             text-align: center;
-            padding: 10px 0;
         }
 
         #counter {
-            font-size: 16px;
-            color: #aaa;
-            margin-top: 10px;
+            font-size: 18px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        #tema-wrapper {
+            width: 100%;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Mencegah scrollbar jika teks kepanjangan */
         }
 
         #tema {
-            /* Ukuran font tetap besar tapi tidak raksasa (40px seperti awal) */
-            font-size: 40px; 
+            /* Perbesar ukuran font dasar */
+            font-size: 55px; 
             font-weight: bold;
-            /* Memaksa teks agar tidak gampang bungkus (wrap) ke bawah */
+            line-height: 1.1;
             width: 100%;
-            margin: auto 0;
-            padding: 0 10px;
-            /* Huruf normal, bukan kapital semua */
-            text-transform: none; 
-            line-height: 1.2;
+            /* Mencegah teks turun baris agar tetap satu baris sejauh mungkin */
+            white-space: normal; 
+            padding: 0 5px;
+            word-wrap: break-word;
         }
 
         button {
-            padding: 12px 25px;
-            font-size: 20px;
+            padding: 15px 35px;
+            font-size: 22px;
+            font-weight: bold;
             cursor: pointer;
             background-color: #007bff;
             color: #fff;
             border: none;
-            border-radius: 10px;
-            margin-bottom: 15px;
+            border-radius: 12px;
+            margin-bottom: 10px;
         }
 
         #footer {
-            font-size: 12px;
-            color: #777;
-            margin-bottom: 10px;
+            font-size: 11px;
+            color: #555;
+            margin-bottom: 5px;
         }
     </style>
 </head>
@@ -75,7 +80,9 @@
     <div id="container">
         <div id="counter">0 / 0</div>
         
-        <div id="tema">Memuat...</div>
+        <div id="tema-wrapper">
+            <div id="tema">Memuat...</div>
+        </div>
 
         <button id="acakTema">Acak Tema</button>
 
@@ -83,7 +90,7 @@
     </div>
 
     <script>
-        const temaList = [
+        const originalTemaList = [
             "Binatang yang hidup di darat", "Buah berwarna merah", "Makanan yang rasanya manis",
             "Benda yang ada di pasar", "Hewan yang bisa terbang", "Bunga yang indah",
             "Warna favorit", "Negara di Asia", "Olahraga populer", "Alat musik",
@@ -98,15 +105,42 @@
             "Kota di pulau jawa", "Bahasa yang tidak menggunakan huruf latin", "Binatang yang hidup di hutan"
         ];
 
+        let antreanTema = [];
+        let totalSelesai = 0;
+
+        const kopyDanKocok = (array) => {
+            let newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        };
+
+        const randomTema = () => {
+            // Jika antrean kosong, isi ulang dan kocok lagi
+            if (antreanTema.length === 0) {
+                antreanTema = kopyDanKocok(originalTemaList);
+                totalSelesai = 0;
+            }
+
+            const temaSkrg = antreanTema.pop();
+            totalSelesai++;
+            
+            temaElement.textContent = temaSkrg;
+            counterElement.textContent = `${totalSelesai} / ${originalTemaList.length}`;
+            
+            // Auto-scaling sederhana: jika teks terlalu panjang, kecilkan sedikit fontnya
+            if (temaSkrg.length > 25) {
+                temaElement.style.fontSize = "40px";
+            } else {
+                temaElement.style.fontSize = "55px";
+            }
+        };
+
         const temaElement = document.getElementById('tema');
         const acakTemaButton = document.getElementById('acakTema');
         const counterElement = document.getElementById('counter');
-
-        const randomTema = () => {
-            const randomIndex = Math.floor(Math.random() * temaList.length);
-            temaElement.textContent = temaList[randomIndex];
-            counterElement.textContent = `${randomIndex + 1} / ${temaList.length}`;
-        };
 
         acakTemaButton.addEventListener('click', randomTema);
         window.onload = randomTema;
