@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Tapple Tema Acak</title>
     <style>
+        /* Dasar tampilan */
         body {
             font-family: 'Arial Narrow', sans-serif-condensed, sans-serif;
             background-color: #1a1a1a;
@@ -18,58 +19,74 @@
             overflow: hidden;
         }
 
+        /* Container utama yang diputar */
         #container {
             transform: rotate(90deg);
+            
+            /* MEMAKSA LUAS AREA: */
+            /* Lebar visual (saat diputar) = Tinggi layar HP sesungguhnya */
             width: 100vh; 
-            height: 100vw;
+            /* Tinggi visual (saat diputar) = Lebar layar HP sesungguhnya */
+            height: 100vw; 
+
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
             text-align: center;
             box-sizing: border-box;
-            padding: 10px 20px;
+            
+            /* Area Background lebih terang untuk melihat batas */
+            background-color: #222; 
+            padding: 10px 0;
         }
 
         #counter {
             font-size: 18px;
-            color: #888;
+            color: #777;
             font-weight: bold;
+            margin-top: 10px;
         }
 
+        /* Box tema menggunakan 100% lebar dari 100vh tadi */
         #tema-box {
-            flex-grow: 1;
+            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
             width: 100%;
+            padding: 0 15px;
+            box-sizing: border-box;
         }
 
         #tema {
-            font-size: 45px; 
+            /* Font tetap konsisten & besar */
+            font-size: 48px; 
             font-weight: bold;
-            line-height: 1.1;
+            line-height: 1;
+            
+            /* ANTI-TURUN BARIS: */
+            /* Mengabaikan aturan pembungkus teks otomatis browser */
+            white-space: nowrap; 
             width: 100%;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
         }
 
         button {
-            padding: 15px 40px;
-            font-size: 22px;
+            padding: 15px 50px;
+            font-size: 24px;
             font-weight: bold;
             cursor: pointer;
             background-color: #007bff;
             color: #fff;
             border: none;
             border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
             margin-bottom: 10px;
         }
 
         #footer {
-            font-size: 12px;
-            color: #666;
+            font-size: 11px;
+            color: #555;
             margin-bottom: 5px;
         }
     </style>
@@ -89,7 +106,7 @@
     </div>
 
     <script>
-        // Daftar tema dibuat satu baris satu item agar mudah ditambah/edit
+        // Script rapi dan mudah diatur secara manual
         const temaListMaster = [
             "Binatang yang hidup di darat",
             "Buah berwarna merah",
@@ -134,30 +151,34 @@
         let sisaTema = [];
         let hitungSelesai = 0;
 
-        function kocokArray(array) {
-            let arr = [...array];
-            for (let i = arr.length - 1; i > 0; i--) {
+        // Fungsi pengocokan (Shuffle)
+        function kocokLagi(array) {
+            let n = [...array];
+            for (let i = n.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [arr[i], arr[j]] = [arr[j], arr[i]];
+                [n[i], n[j]] = [n[j], n[i]];
             }
-            return arr;
+            return n;
         }
 
-        const randomTema = () => {
+        const tampilkanTema = () => {
+            // Jika semua tema sudah keluar, kocok ulang dari awal
             if (sisaTema.length === 0) {
-                sisaTema = kocokArray(temaListMaster);
+                sisaTema = kocokLagi(temaListMaster);
                 hitungSelesai = 0;
             }
 
-            const current = sisaTema.pop();
+            const teksBaru = sisaTema.pop();
             hitungSelesai++;
 
-            document.getElementById('tema').textContent = current;
+            document.getElementById('tema').textContent = teksBaru;
             document.getElementById('counter').textContent = `${hitungSelesai} / ${temaListMaster.length}`;
         };
 
-        document.getElementById('acakTema').addEventListener('click', randomTema);
-        window.onload = randomTema;
+        document.getElementById('acakTema').addEventListener('click', tampilkanTema);
+        
+        // Mulai pertama kali
+        window.onload = tampilkanTema;
     </script>
 </body>
 </html>
