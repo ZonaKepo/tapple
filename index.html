@@ -1,133 +1,121 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Tapple Tema Acak</title>
     <style>
+        /* Menggunakan font condensed untuk menghemat ruang */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #333;
+            font-family: 'Arial Narrow', 'Ubuntu Condensed', sans-serif-condensed, sans-serif;
+            background-color: #1a1a1a;
             color: #fff;
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
-            transform: rotate(90deg);
-            transform-origin: center;
             overflow: hidden;
         }
+
+        /* Rotasi 90 derajat untuk mode landscape paksa */
         #container {
-            text-align: center;
-            width: 100%;
-            height: 100%;
-            position: relative;
+            transform: rotate(90deg);
+            width: 90vh; /* Lebar container adalah tinggi layar karena diputar */
+            height: 90vw;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
+            text-align: center;
+            padding: 20px 0;
         }
+
         #counter {
-            font-size: 14px;
-            color: #ccc;
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+            font-size: 16px;
+            color: #aaa;
+            letter-spacing: 1px;
         }
+
         #tema {
-            font-size: 40px;
+            font-size: 8vh; /* Menggunakan vh karena orientasi rotasi */
             font-weight: bold;
-            margin: 20px;
-            padding: 0 20px;
-            width: 90%;
+            line-height: 1.1;
+            width: 100%;
+            margin: auto 0;
+            word-wrap: break-word;
+            text-transform: uppercase;
         }
+
         button {
-            padding: 10px 20px;
-            font-size: 20px;
+            padding: 15px 40px;
+            font-size: 24px;
+            font-weight: bold;
             cursor: pointer;
             background-color: #007bff;
             color: #fff;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.1s;
+            margin-bottom: 20px;
         }
-        #keterangan {
+
+        button:active {
+            transform: scale(0.95);
+            background-color: #0056b3;
+        }
+
+        #footer {
             font-size: 12px;
-            color: #ccc;
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+            color: #777;
+            letter-spacing: 0.5px;
         }
     </style>
 </head>
 <body>
+
     <div id="container">
-        <span id="counter">1/38</span>
-        <div id="tema"></div>
-        <button id="acakTema">Acak Tema</button>
-        <div id="keterangan">IG : @ukiek | 2026</div>
+        <div id="counter">0 / 0</div>
+
+        <div id="tema">MEMUAT...</div>
+
+        <button id="acakTema">ACAK TEMA</button>
+
+        <div id="footer">IG: @ukiek | Email: syaukidear@gmail.com</div>
     </div>
 
     <script>
         const temaList = [
-            "Binatang yang hidup di darat",
-            "Buah berwarna merah",
-            "Makanan yang rasanya manis",
-            "Benda yang ada di pasar",
-            "Hewan yang bisa terbang",
-            "Bunga yang indah",
-            "Warna favorit",
-            "Negara di Asia",
-            "Olahraga populer",
-            "Alat musik",
-            "Jenis tansportasi",
-            "Hobi anak muda",
-            "Makanan khas Indonesia",
-            "Pahlawan nasional",
-            "Tempat wisata di Indonesia",
-            "Jenis olahraga air",
-            "Buku favorit",
-            "Film populer",
-            "Jenis hewan laut",
-            "Kota di Indonesia",
-            "Benda warna merah",
-            "Benda yang ada di mesjid",
-            "Benda warna putih",
-            "Yang baunya wangi",
-            "Nama negara di dunia",
-            "Hewan peliharaan",
-            "Makanan pedas",
-            "Jenis tansportasi udara",
-            "Tempat wisata di luar negeri",
-            "Jenis olahraga ekstrem",
-            "Binatang yang hidup di air",
-            "Binatang yang suaranya berisik",
-            "Makanan yang manis",
-            "Nama-nama pulau",
-            "Nama perempuan yang ngetrend",
-            "Kota di pulau jawa",
-            "Bahasa yang tidak menggunakan huruf latin",
-            "Binatang yang hidup di hutan"
+            "Binatang yang hidup di darat", "Buah berwarna merah", "Makanan yang rasanya manis",
+            "Benda yang ada di pasar", "Hewan yang bisa terbang", "Bunga yang indah",
+            "Warna favorit", "Negara di Asia", "Olahraga populer", "Alat musik",
+            "Jenis transportasi", "Hobi anak muda", "Makanan khas Indonesia",
+            "Pahlawan nasional", "Tempat wisata di Indonesia", "Jenis olahraga air",
+            "Buku favorit", "Film populer", "Jenis hewan laut", "Kota di Indonesia",
+            "Benda warna merah", "Benda yang ada di mesjid", "Benda warna putih",
+            "Yang baunya wangi", "Nama negara di dunia", "Hewan peliharaan",
+            "Makanan pedas", "Jenis transportasi udara", "Tempat wisata di luar negeri",
+            "Jenis olahraga ekstrem", "Binatang yang hidup di air", "Binatang yang suaranya berisik",
+            "Makanan yang manis", "Nama-nama pulau", "Nama perempuan yang ngetrend",
+            "Kota di pulau jawa", "Bahasa yang tidak menggunakan huruf latin", "Binatang yang hidup di hutan"
         ];
 
         const temaElement = document.getElementById('tema');
         const acakTemaButton = document.getElementById('acakTema');
         const counterElement = document.getElementById('counter');
 
-        let currentTemaIndex = 0;
-
         const randomTema = () => {
-            currentTemaIndex = Math.floor(Math.random() * temaList.length);
-            temaElement.textContent = temaList[currentTemaIndex];
-            counterElement.textContent = `${currentTemaIndex + 1}/${temaList.length}`;
+            const randomIndex = Math.floor(Math.random() * temaList.length);
+            temaElement.textContent = temaList[randomIndex];
+            // Update counter (Index + 1 agar tidak mulai dari nol)
+            counterElement.textContent = `${randomIndex + 1} / ${temaList.length}`;
         };
 
         acakTemaButton.addEventListener('click', randomTema);
 
-        // Tampilkan tema pertama saat load
-        randomTema();
+        // Jalankan saat pertama kali dibuka
+        window.onload = randomTema;
     </script>
 </body>
 </html>
