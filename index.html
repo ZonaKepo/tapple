@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Tapple Tema Acak</title>
     <style>
-        /* Dasar tampilan */
         body {
             font-family: 'Arial Narrow', sans-serif-condensed, sans-serif;
             background-color: #1a1a1a;
@@ -19,14 +18,13 @@
             overflow: hidden;
         }
 
-        /* Container utama yang diputar */
         #container {
+            /* Rotasi 90 derajat */
             transform: rotate(90deg);
             
-            /* MEMAKSA LUAS AREA: */
-            /* Lebar visual (saat diputar) = Tinggi layar HP sesungguhnya */
+            /* Lebar area kerja = Tinggi layar HP sepenuhnya */
             width: 100vh; 
-            /* Tinggi visual (saat diputar) = Lebar layar HP sesungguhnya */
+            /* Tinggi area kerja = Lebar layar HP sepenuhnya */
             height: 100vw; 
 
             display: flex;
@@ -36,39 +34,39 @@
             text-align: center;
             box-sizing: border-box;
             
-            /* Area Background lebih terang untuk melihat batas */
-            background-color: #222; 
-            padding: 10px 0;
+            /* Latar belakang abu-abu gelap seragam */
+            background-color: #1a1a1a; 
+            padding: 20px;
         }
 
         #counter {
             font-size: 18px;
             color: #777;
             font-weight: bold;
-            margin-top: 10px;
         }
 
-        /* Box tema menggunakan 100% lebar dari 100vh tadi */
         #tema-box {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
             width: 100%;
-            padding: 0 15px;
-            box-sizing: border-box;
+            /* Memberikan ruang maksimal secara horizontal (tinggi layar) */
         }
 
         #tema {
-            /* Font tetap konsisten & besar */
             font-size: 48px; 
             font-weight: bold;
-            line-height: 1;
-            
-            /* ANTI-TURUN BARIS: */
-            /* Mengabaikan aturan pembungkus teks otomatis browser */
-            white-space: nowrap; 
+            line-height: 1.1;
             width: 100%;
+            
+            /* PERBAIKAN: Izinkan turun baris (wrap) agar tidak terpotong */
+            white-space: normal; 
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            
+            /* Menghilangkan paksaan satu baris agar teks panjang tetap muncul semua */
+            display: block;
         }
 
         button {
@@ -106,7 +104,6 @@
     </div>
 
     <script>
-        // Script rapi dan mudah diatur secara manual
         const temaListMaster = [
             "Binatang yang hidup di darat",
             "Buah berwarna merah",
@@ -151,7 +148,6 @@
         let sisaTema = [];
         let hitungSelesai = 0;
 
-        // Fungsi pengocokan (Shuffle)
         function kocokLagi(array) {
             let n = [...array];
             for (let i = n.length - 1; i > 0; i--) {
@@ -162,7 +158,6 @@
         }
 
         const tampilkanTema = () => {
-            // Jika semua tema sudah keluar, kocok ulang dari awal
             if (sisaTema.length === 0) {
                 sisaTema = kocokLagi(temaListMaster);
                 hitungSelesai = 0;
@@ -176,8 +171,6 @@
         };
 
         document.getElementById('acakTema').addEventListener('click', tampilkanTema);
-        
-        // Mulai pertama kali
         window.onload = tampilkanTema;
     </script>
 </body>
