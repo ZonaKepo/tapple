@@ -14,50 +14,48 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            width: 100vw;
             overflow: hidden;
         }
 
         #container {
             transform: rotate(90deg);
-            /* Memaksimalkan lebar hingga hampir menyentuh pinggir layar HP (atas-bawah visual) */
-            width: 98vh; 
-            height: 90vw;
+            width: 100vh; 
+            height: 100vw;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
             text-align: center;
+            box-sizing: border-box;
+            padding: 10px 20px;
         }
 
         #counter {
             font-size: 18px;
             color: #888;
-            margin-top: 5px;
+            font-weight: bold;
         }
 
-        #tema-wrapper {
-            width: 100%;
+        #tema-box {
             flex-grow: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden; /* Mencegah scrollbar jika teks kepanjangan */
+            width: 100%;
         }
 
         #tema {
-            /* Perbesar ukuran font dasar */
-            font-size: 55px; 
+            font-size: 45px; 
             font-weight: bold;
             line-height: 1.1;
             width: 100%;
-            /* Mencegah teks turun baris agar tetap satu baris sejauh mungkin */
-            white-space: normal; 
-            padding: 0 5px;
             word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         button {
-            padding: 15px 35px;
+            padding: 15px 40px;
             font-size: 22px;
             font-weight: bold;
             cursor: pointer;
@@ -65,12 +63,13 @@
             color: #fff;
             border: none;
             border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
             margin-bottom: 10px;
         }
 
         #footer {
-            font-size: 11px;
-            color: #555;
+            font-size: 12px;
+            color: #666;
             margin-bottom: 5px;
         }
     </style>
@@ -80,7 +79,7 @@
     <div id="container">
         <div id="counter">0 / 0</div>
         
-        <div id="tema-wrapper">
+        <div id="tema-box">
             <div id="tema">Memuat...</div>
         </div>
 
@@ -90,59 +89,74 @@
     </div>
 
     <script>
-        const originalTemaList = [
-            "Binatang yang hidup di darat", "Buah berwarna merah", "Makanan yang rasanya manis",
-            "Benda yang ada di pasar", "Hewan yang bisa terbang", "Bunga yang indah",
-            "Warna favorit", "Negara di Asia", "Olahraga populer", "Alat musik",
-            "Jenis transportasi", "Hobi anak muda", "Makanan khas Indonesia",
-            "Pahlawan nasional", "Tempat wisata di Indonesia", "Jenis olahraga air",
-            "Buku favorit", "Film populer", "Jenis hewan laut", "Kota di Indonesia",
-            "Benda warna merah", "Benda yang ada di mesjid", "Benda warna putih",
-            "Yang baunya wangi", "Nama negara di dunia", "Hewan peliharaan",
-            "Makanan pedas", "Jenis transportasi udara", "Tempat wisata di luar negeri",
-            "Jenis olahraga ekstrem", "Binatang yang hidup di air", "Binatang yang suaranya berisik",
-            "Makanan yang manis", "Nama-nama pulau", "Nama perempuan yang ngetrend",
-            "Kota di pulau jawa", "Bahasa yang tidak menggunakan huruf latin", "Binatang yang hidup di hutan"
+        // Daftar tema dibuat satu baris satu item agar mudah ditambah/edit
+        const temaListMaster = [
+            "Binatang yang hidup di darat",
+            "Buah berwarna merah",
+            "Makanan yang rasanya manis",
+            "Benda yang ada di pasar",
+            "Hewan yang bisa terbang",
+            "Bunga yang indah",
+            "Warna favorit",
+            "Negara di Asia",
+            "Olahraga populer",
+            "Alat musik",
+            "Jenis transportasi",
+            "Hobi anak muda",
+            "Makanan khas Indonesia",
+            "Pahlawan nasional",
+            "Tempat wisata di Indonesia",
+            "Jenis olahraga air",
+            "Buku favorit",
+            "Film populer",
+            "Jenis hewan laut",
+            "Kota di Indonesia",
+            "Benda warna merah",
+            "Benda yang ada di mesjid",
+            "Benda warna putih",
+            "Yang baunya wangi",
+            "Nama negara di dunia",
+            "Hewan peliharaan",
+            "Makanan pedas",
+            "Jenis transportasi udara",
+            "Tempat wisata di luar negeri",
+            "Jenis olahraga ekstrem",
+            "Binatang yang hidup di air",
+            "Binatang yang suaranya berisik",
+            "Makanan yang manis",
+            "Nama-nama pulau",
+            "Nama perempuan yang ngetrend",
+            "Kota di pulau jawa",
+            "Bahasa yang tidak menggunakan huruf latin",
+            "Binatang yang hidup di hutan"
         ];
 
-        let antreanTema = [];
-        let totalSelesai = 0;
+        let sisaTema = [];
+        let hitungSelesai = 0;
 
-        const kopyDanKocok = (array) => {
-            let newArray = [...array];
-            for (let i = newArray.length - 1; i > 0; i--) {
+        function kocokArray(array) {
+            let arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+                [arr[i], arr[j]] = [arr[j], arr[i]];
             }
-            return newArray;
-        };
+            return arr;
+        }
 
         const randomTema = () => {
-            // Jika antrean kosong, isi ulang dan kocok lagi
-            if (antreanTema.length === 0) {
-                antreanTema = kopyDanKocok(originalTemaList);
-                totalSelesai = 0;
+            if (sisaTema.length === 0) {
+                sisaTema = kocokArray(temaListMaster);
+                hitungSelesai = 0;
             }
 
-            const temaSkrg = antreanTema.pop();
-            totalSelesai++;
-            
-            temaElement.textContent = temaSkrg;
-            counterElement.textContent = `${totalSelesai} / ${originalTemaList.length}`;
-            
-            // Auto-scaling sederhana: jika teks terlalu panjang, kecilkan sedikit fontnya
-            if (temaSkrg.length > 25) {
-                temaElement.style.fontSize = "40px";
-            } else {
-                temaElement.style.fontSize = "55px";
-            }
+            const current = sisaTema.pop();
+            hitungSelesai++;
+
+            document.getElementById('tema').textContent = current;
+            document.getElementById('counter').textContent = `${hitungSelesai} / ${temaListMaster.length}`;
         };
 
-        const temaElement = document.getElementById('tema');
-        const acakTemaButton = document.getElementById('acakTema');
-        const counterElement = document.getElementById('counter');
-
-        acakTemaButton.addEventListener('click', randomTema);
+        document.getElementById('acakTema').addEventListener('click', randomTema);
         window.onload = randomTema;
     </script>
 </body>
