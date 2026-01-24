@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Tapple Tema Acak</title>
     <style>
-        /* Menggunakan font condensed untuk menghemat ruang */
         body {
-            font-family: 'Arial Narrow', 'Ubuntu Condensed', sans-serif-condensed, sans-serif;
+            /* Menggunakan font kurus (condensed) */
+            font-family: 'Arial Narrow', sans-serif-condensed, 'Roboto Condensed', sans-serif;
             background-color: #1a1a1a;
             color: #fff;
             margin: 0;
@@ -18,58 +18,55 @@
             overflow: hidden;
         }
 
-        /* Rotasi 90 derajat untuk mode landscape paksa */
         #container {
+            /* Rotasi 90 derajat */
             transform: rotate(90deg);
-            width: 90vh; /* Lebar container adalah tinggi layar karena diputar */
+            /* Karena diputar, lebar kontainer menggunakan tinggi layar (vh) */
+            /* Kita kasih 95vh supaya benar-benar lebar ke samping */
+            width: 95vh; 
             height: 90vw;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
             text-align: center;
-            padding: 20px 0;
+            padding: 10px 0;
         }
 
         #counter {
             font-size: 16px;
             color: #aaa;
-            letter-spacing: 1px;
+            margin-top: 10px;
         }
 
         #tema {
-            font-size: 8vh; /* Menggunakan vh karena orientasi rotasi */
+            /* Ukuran font tetap besar tapi tidak raksasa (40px seperti awal) */
+            font-size: 40px; 
             font-weight: bold;
-            line-height: 1.1;
+            /* Memaksa teks agar tidak gampang bungkus (wrap) ke bawah */
             width: 100%;
             margin: auto 0;
-            word-wrap: break-word;
-            text-transform: uppercase;
+            padding: 0 10px;
+            /* Huruf normal, bukan kapital semua */
+            text-transform: none; 
+            line-height: 1.2;
         }
 
         button {
-            padding: 15px 40px;
-            font-size: 24px;
-            font-weight: bold;
+            padding: 12px 25px;
+            font-size: 20px;
             cursor: pointer;
             background-color: #007bff;
             color: #fff;
             border: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            transition: transform 0.1s;
-            margin-bottom: 20px;
-        }
-
-        button:active {
-            transform: scale(0.95);
-            background-color: #0056b3;
+            border-radius: 10px;
+            margin-bottom: 15px;
         }
 
         #footer {
             font-size: 12px;
             color: #777;
-            letter-spacing: 0.5px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -77,12 +74,12 @@
 
     <div id="container">
         <div id="counter">0 / 0</div>
+        
+        <div id="tema">Memuat...</div>
 
-        <div id="tema">MEMUAT...</div>
+        <button id="acakTema">Acak Tema</button>
 
-        <button id="acakTema">ACAK TEMA</button>
-
-        <div id="footer">IG: @ukiek | Email: syaukidear@gmail.com</div>
+        <div id="footer">IG : @ukiek | Email : syaukidear@gmail.com</div>
     </div>
 
     <script>
@@ -108,13 +105,10 @@
         const randomTema = () => {
             const randomIndex = Math.floor(Math.random() * temaList.length);
             temaElement.textContent = temaList[randomIndex];
-            // Update counter (Index + 1 agar tidak mulai dari nol)
             counterElement.textContent = `${randomIndex + 1} / ${temaList.length}`;
         };
 
         acakTemaButton.addEventListener('click', randomTema);
-
-        // Jalankan saat pertama kali dibuka
         window.onload = randomTema;
     </script>
 </body>
